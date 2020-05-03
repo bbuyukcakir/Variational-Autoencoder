@@ -93,17 +93,17 @@ gen = Loader(16)
 opt = torch.optim.Adam(model.parameters(), lr=1e-4)
 epochs = 10
 t = time.time()
-#
-# for e in range(epochs):
-#     for b in range(len(gen.files) // gen.batch_size):
-#         batch = gen.load_batch()
-#         opt.zero_grad()
-#         out, mu, sig = model.forward(batch)
-#         l = loss(out, batch.to(torch.device("cuda")), mu, sig)
-#         l.backward()
-#         opt.step()
-#         if b % 20 == 19:
-#             print(f"Epoch: {e + 1}\tBatch: {b + 1}\tLoss: {l.item()}\t in {time.time() - t}")
-#             t = time.time()
-#     gen.batch_track = 0
-#     gen.reshuffle()
+
+for e in range(epochs):
+    for b in range(len(gen.files) // gen.batch_size):
+        batch = gen.load_batch()
+        opt.zero_grad()
+        out, mu, sig = model.forward(batch)
+        l = loss(out, batch.to(torch.device("cuda")), mu, sig)
+        l.backward()
+        opt.step()
+        if b % 20 == 19:
+            print(f"Epoch: {e + 1}\tBatch: {b + 1}\tLoss: {l.item()}\t in {time.time() - t}")
+            t = time.time()
+    gen.batch_track = 0
+    gen.reshuffle()
